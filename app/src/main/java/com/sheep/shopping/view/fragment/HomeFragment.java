@@ -25,6 +25,7 @@ import com.sheep.mylibrary.utils.net.URLConstant;
 import com.sheep.shopping.R;
 import com.sheep.shopping.adapter.BannerAdapter;
 import com.sheep.shopping.adapter.GridAdapter;
+import com.sheep.shopping.adapter.MakeAdapter;
 import com.sheep.shopping.adapter.Text1Adapter;
 import com.sheep.shopping.base.BaseFragment;
 import com.sheep.shopping.bean.HomeBean;
@@ -53,6 +54,8 @@ public class HomeFragment extends BaseFragment<ImpPresenter> implements MyContra
     private ArrayList<HomeBean.DataDTO.ChannelDTO> girdlist;
     private DelegateAdapter delegateAdapter;
     private Text1Adapter text1Adapter;
+    private ArrayList<HomeBean.DataDTO.BrandListDTO> makelist;
+    private MakeAdapter makeAdapter;
 
 
     @Override
@@ -73,6 +76,7 @@ public class HomeFragment extends BaseFragment<ImpPresenter> implements MyContra
 
         bannerlist = new ArrayList<>();
         girdlist = new ArrayList<>();
+        makelist = new ArrayList<>();
 
         // 初始化有一个布局管理器
         virtualLayoutManager = new VirtualLayoutManager(getActivity());
@@ -81,54 +85,76 @@ public class HomeFragment extends BaseFragment<ImpPresenter> implements MyContra
         rel_home.setRecycledViewPool(pool);
         pool.setMaxRecycledViews(0, 10);
 
-        rel_home.setLayoutManager(virtualLayoutManager);
-
         initBanner();
         initGird();
         initText1();
         initMake();
+        initText2();
+    }
+
+    private void initText2() {
+        //  设置通栏布局
+        SingleLayoutHelper singleLayoutHelper = new SingleLayoutHelper();
+        // 公共属性
+        singleLayoutHelper.setItemCount(6);// 设置布局里Item个数
+        singleLayoutHelper.setPadding(20,20,20,20);// 设置LayoutHelper的子元素相对LayoutHelper边缘的距离
+        singleLayoutHelper.setMargin(20,20,20,20);// 设置LayoutHelper边缘相对父控件（即RecyclerView）的距离
+        singleLayoutHelper.setBgColor(Color.WHITE);// 设置背景颜色
+        singleLayoutHelper.setAspectRatio(7);// 设置设置布局内每行布局的宽与高的比
+
+
     }
 
     private void initMake() {
         //设置Grid布局
-        GridLayoutHelper gridLayoutHelper = new GridLayoutHelper(3);
+        GridLayoutHelper gridLayoutHelper = new GridLayoutHelper(2);
         // 在构造函数设置每行的网格个数
         // 公共属性
-        gridLayoutHelper.setItemCount(5);// 设置布局里Item个数
+        gridLayoutHelper.setItemCount(2);// 设置布局里Item个数
         gridLayoutHelper.setPadding(20, 20, 20, 20);// 设置LayoutHelper的子元素相对LayoutHelper边缘的距离
         gridLayoutHelper.setMargin(20, 20, 20, 20);// 设置LayoutHelper边缘相对父控件（即RecyclerView）的距离
         gridLayoutHelper.setBgColor(Color.WHITE);// 设置背景颜色
-        gridLayoutHelper.setAspectRatio(6);// 设置设置布局内每行布局的宽与高的比
+        gridLayoutHelper.setAspectRatio(2);// 设置设置布局内每行布局的宽与高的比
 
         // gridLayoutHelper特有属性（下面会详细说明）
-        gridLayoutHelper.setWeights(new float[]{20, 20, 20, 20, 20});//设置每行中 每个网格宽度 占 每行总宽度 的比例
-        gridLayoutHelper.setVGap(20);// 控制子元素之间的垂直间距
-        gridLayoutHelper.setHGap(20);// 控制子元素之间的水平间距
+        gridLayoutHelper.setWeights(new float[]{50,50});//设置每行中 每个网格宽度 占 每行总宽度 的比例
+        gridLayoutHelper.setVGap(10);// 控制子元素之间的垂直间距
+        gridLayoutHelper.setHGap(10);// 控制子元素之间的水平间距
         gridLayoutHelper.setAutoExpand(false);//是否自动填充空白区域
-        gridLayoutHelper.setSpanCount(7);// 设置每行多少个网格
+        gridLayoutHelper.setSpanCount(2);// 设置每行多少个网格
 
+        makeAdapter = new MakeAdapter(gridLayoutHelper, makelist, getActivity());
 
+        delegateAdapter = new DelegateAdapter(virtualLayoutManager, true);
+        delegateAdapter.addAdapter(bannerAdapter);
+        delegateAdapter.addAdapter(text1Adapter);
+        delegateAdapter.addAdapter(gridAdapter);
+        delegateAdapter.addAdapter(makeAdapter);
+
+        rel_home.setLayoutManager(virtualLayoutManager);
+        rel_home.setAdapter(delegateAdapter);
     }
 
     private void initGird() {
         //设置Grid布局
-        GridLayoutHelper gridLayoutHelper = new GridLayoutHelper(3);
+        GridLayoutHelper gridLayoutHelper = new GridLayoutHelper(5);
         // 在构造函数设置每行的网格个数
         // 公共属性
         gridLayoutHelper.setItemCount(5);// 设置布局里Item个数
         gridLayoutHelper.setPadding(20, 20, 20, 20);// 设置LayoutHelper的子元素相对LayoutHelper边缘的距离
         gridLayoutHelper.setMargin(20, 20, 20, 20);// 设置LayoutHelper边缘相对父控件（即RecyclerView）的距离
         gridLayoutHelper.setBgColor(Color.WHITE);// 设置背景颜色
-        gridLayoutHelper.setAspectRatio(6);// 设置设置布局内每行布局的宽与高的比
+        gridLayoutHelper.setAspectRatio(5);// 设置设置布局内每行布局的宽与高的比
 
         // gridLayoutHelper特有属性（下面会详细说明）
         gridLayoutHelper.setWeights(new float[]{20, 20, 20, 20, 20});//设置每行中 每个网格宽度 占 每行总宽度 的比例
         gridLayoutHelper.setVGap(20);// 控制子元素之间的垂直间距
         gridLayoutHelper.setHGap(20);// 控制子元素之间的水平间距
         gridLayoutHelper.setAutoExpand(false);//是否自动填充空白区域
-        gridLayoutHelper.setSpanCount(7);// 设置每行多少个网格
+        gridLayoutHelper.setSpanCount(5);// 设置每行多少个网格
 
         gridAdapter = new GridAdapter(gridLayoutHelper, girdlist, getActivity());
+
 
 
 
@@ -138,7 +164,7 @@ public class HomeFragment extends BaseFragment<ImpPresenter> implements MyContra
         //  设置通栏布局
         SingleLayoutHelper singleLayoutHelper = new SingleLayoutHelper();
         // 公共属性
-        singleLayoutHelper.setItemCount(1);// 设置布局里Item个数
+        singleLayoutHelper.setItemCount(6);// 设置布局里Item个数
         singleLayoutHelper.setPadding(20,20,20,20);// 设置LayoutHelper的子元素相对LayoutHelper边缘的距离
         singleLayoutHelper.setMargin(20,20,20,20);// 设置LayoutHelper边缘相对父控件（即RecyclerView）的距离
         singleLayoutHelper.setBgColor(Color.WHITE);// 设置背景颜色
@@ -147,16 +173,7 @@ public class HomeFragment extends BaseFragment<ImpPresenter> implements MyContra
         text1Adapter = new Text1Adapter(singleLayoutHelper, getActivity());
 
 
-        delegateAdapter = new DelegateAdapter(virtualLayoutManager, true);
-        delegateAdapter.addAdapter(bannerAdapter);
-        delegateAdapter.addAdapter(text1Adapter);
-        delegateAdapter.addAdapter(gridAdapter);
-
-
-        rel_home.setAdapter(delegateAdapter);
     }
-
-
 
 
     private void initBanner() {
@@ -187,6 +204,10 @@ public class HomeFragment extends BaseFragment<ImpPresenter> implements MyContra
         List<HomeBean.DataDTO.ChannelDTO>  grid = homeBean.getData().getChannel();
         girdlist.addAll( grid);
         gridAdapter.notifyDataSetChanged();
+
+        List<HomeBean.DataDTO.BrandListDTO> make = homeBean.getData().getBrandList();
+        makelist.addAll(make);
+        makeAdapter.notifyDataSetChanged();
     }
 
 

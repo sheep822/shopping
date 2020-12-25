@@ -17,14 +17,16 @@ import com.bumptech.glide.Glide;
 import com.sheep.shopping.R;
 import com.sheep.shopping.bean.HomeBean;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class MakeAdapter extends DelegateAdapter.Adapter<MakeAdapter.HomeHolder> {
     private GridLayoutHelper gridLayoutHelper;
-    private ArrayList<HomeBean.DataDTO.ChannelDTO> list;
+    private ArrayList<HomeBean.DataDTO.BrandListDTO> list;
     private Context context;
 
-    public MakeAdapter(GridLayoutHelper gridLayoutHelper, ArrayList<HomeBean.DataDTO.ChannelDTO> list, Context context) {
+    public MakeAdapter(GridLayoutHelper gridLayoutHelper, ArrayList<HomeBean.DataDTO.BrandListDTO> list, Context context) {
         this.gridLayoutHelper = gridLayoutHelper;
         this.list = list;
         this.context = context;
@@ -44,7 +46,9 @@ public class MakeAdapter extends DelegateAdapter.Adapter<MakeAdapter.HomeHolder>
 
     @Override
     public void onBindViewHolder(@NonNull HomeHolder holder, int position) {
-
+        holder.tv_name.setText(list.get(position).getName());
+        holder.tv_price.setText(list.get(position).getFloor_price());
+        Glide.with(context).load(list.get(position).getNew_pic_url()).into(holder.iv);
     }
 
     @Override
@@ -53,12 +57,15 @@ public class MakeAdapter extends DelegateAdapter.Adapter<MakeAdapter.HomeHolder>
     }
 
     class HomeHolder extends RecyclerView.ViewHolder {
-
+        private TextView tv_price;
+        private TextView tv_name;
+        private ImageView iv;
 
         public HomeHolder(@NonNull View itemView) {
             super(itemView);
-
-
+            tv_name = itemView.findViewById(R.id.tv_name);
+            tv_price = itemView.findViewById(R.id.tv_price);
+            iv = itemView.findViewById(R.id.iv_make);
         }
     }
 }
