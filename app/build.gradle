@@ -1,0 +1,65 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.sheep.shopping"
+        minSdkVersion 22
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation project(path: ':mylibrary')
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    //解析依赖
+    implementation 'com.google.code.gson:gson:2.2.4'
+    //列表依赖
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    //风格依赖
+    implementation 'com.android.support:design:30.0.0'
+    //如果是androidx，使用以下依赖，后续项目全部使用androidx依赖
+    implementation 'com.google.android.material:material:1.2.0-alpha02'
+    // 图片加载框架
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    //上拉下拉刷新依赖
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
+    //权限框架
+    compile 'com.github.dfqin:grantor:2.5'
+    //轮播图依赖
+    compile 'com.youth.banner:banner:1.4.10'
+    //glide图片加载框架
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    //V-layout依赖
+    implementation ('com.alibaba.android:vlayout:1.2.8@aar') {
+        transitive = true
+    }
+}
