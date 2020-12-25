@@ -7,7 +7,7 @@ import com.sheep.shopping.contract.MyContract;
 import com.sheep.shopping.model.ImpModel;
 
 public class ImpPresenter<T> extends BasePresenter<MyContract.InModel<HomeBean>, MyContract.InView> implements MyContract.InPresenter {
-    public ImpPresenter(MyContract.InView<T> view) {
+    public ImpPresenter(MyContract.InView view) {
         super(view);
     }
 

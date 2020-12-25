@@ -16,7 +16,7 @@
             android:layout_height="50dp"
             android:gravity="center"
             android:hint="商品搜索，共239款好物"
-            android:textSize="20sp"
+            android:textSize="17sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
