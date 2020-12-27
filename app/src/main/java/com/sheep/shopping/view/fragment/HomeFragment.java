@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -25,11 +26,14 @@ import com.sheep.mylibrary.utils.net.URLConstant;
 import com.sheep.shopping.R;
 import com.sheep.shopping.adapter.BannerAdapter;
 import com.sheep.shopping.adapter.GridAdapter;
+import com.sheep.shopping.adapter.LoveAdapter;
 import com.sheep.shopping.adapter.MakeAdapter;
 import com.sheep.shopping.adapter.NewAdapter;
+import com.sheep.shopping.adapter.SleepAdapter;
 import com.sheep.shopping.adapter.Text1Adapter;
 import com.sheep.shopping.adapter.Text2Adapter;
 import com.sheep.shopping.adapter.Text3Adapter;
+import com.sheep.shopping.adapter.Text4Adapter;
 import com.sheep.shopping.base.BaseFragment;
 import com.sheep.shopping.bean.HomeBean;
 import com.sheep.shopping.contract.MyContract;
@@ -63,6 +67,11 @@ public class HomeFragment extends BaseFragment<ImpPresenter> implements MyContra
     private ArrayList<HomeBean.DataDTO.NewGoodsListDTO> newlist;
     private NewAdapter newAdapter;
     private Text3Adapter text3Adapter;
+    private SleepAdapter sleepAdapter;
+    private ArrayList<HomeBean.DataDTO.HotGoodsListDTO> slppelist;
+    private Text4Adapter text4Adapter;
+    private LoveAdapter loveAdapter;
+    private ArrayList<HomeBean.DataDTO.TopicListDTO> lovelist;
 
 
     @Override
@@ -85,6 +94,8 @@ public class HomeFragment extends BaseFragment<ImpPresenter> implements MyContra
         girdlist = new ArrayList<>();
         makelist = new ArrayList<>();
         newlist = new ArrayList<>();
+        slppelist = new ArrayList<>();
+        lovelist = new ArrayList<>();
 
         // 初始化有一个布局管理器
         virtualLayoutManager = new VirtualLayoutManager(getActivity());
@@ -101,18 +112,75 @@ public class HomeFragment extends BaseFragment<ImpPresenter> implements MyContra
         initNew();
         initText3();
         initSleep();
+        initText4();
+        initLove();
+        initHome();
+    }
+
+    private void initHome() {
+        //  设置通栏布局
+        SingleLayoutHelper singleLayoutHelper = new SingleLayoutHelper();
+        // 公共属性
+        singleLayoutHelper.setItemCount(1);// 设置布局里Item个数
+        singleLayoutHelper.setPadding(20, 20, 20, 20);// 设置LayoutHelper的子元素相对LayoutHelper边缘的距离
+        singleLayoutHelper.setMargin(20, 20, 20, 20);// 设置LayoutHelper边缘相对父控件（即RecyclerView）的距离
+        singleLayoutHelper.setBgColor(Color.WHITE);// 设置背景颜色
+//        singleLayoutHelper.setAspectRatio(7);// 设置设置布局内每行布局的宽与高的比
+
+        loveAdapter = new LoveAdapter(singleLayoutHelper,lovelist,getActivity());
+    }
+
+    private void initLove() {
+        //  设置通栏布局
+        SingleLayoutHelper singleLayoutHelper = new SingleLayoutHelper();
+        // 公共属性
+        singleLayoutHelper.setItemCount(1);// 设置布局里Item个数
+        singleLayoutHelper.setPadding(20, 20, 20, 20);// 设置LayoutHelper的子元素相对LayoutHelper边缘的距离
+        singleLayoutHelper.setMargin(20, 20, 20, 20);// 设置LayoutHelper边缘相对父控件（即RecyclerView）的距离
+        singleLayoutHelper.setBgColor(Color.WHITE);// 设置背景颜色
+//        singleLayoutHelper.setAspectRatio(7);// 设置设置布局内每行布局的宽与高的比
+
+        loveAdapter = new LoveAdapter(singleLayoutHelper,lovelist,getActivity());
+
+        delegateAdapter = new DelegateAdapter(virtualLayoutManager);
+        delegateAdapter.addAdapter(bannerAdapter);
+        delegateAdapter.addAdapter(gridAdapter);
+        delegateAdapter.addAdapter(text1Adapter);
+        delegateAdapter.addAdapter(makeAdapter);
+        delegateAdapter.addAdapter(text2Adapter);
+        delegateAdapter.addAdapter(newAdapter);
+        delegateAdapter.addAdapter(text3Adapter);
+        delegateAdapter.addAdapter(sleepAdapter);
+        delegateAdapter.addAdapter(text4Adapter);
+        delegateAdapter.addAdapter(loveAdapter);
+
+        rel_home.setLayoutManager(virtualLayoutManager);
+        rel_home.setAdapter(delegateAdapter);
+    }
+
+    private void initText4() {
+        //  设置通栏布局
+        SingleLayoutHelper singleLayoutHelper = new SingleLayoutHelper();
+        // 公共属性
+        singleLayoutHelper.setItemCount(1);// 设置布局里Item个数
+        singleLayoutHelper.setPadding(20, 20, 20, 20);// 设置LayoutHelper的子元素相对LayoutHelper边缘的距离
+        singleLayoutHelper.setMargin(20, 20, 20, 20);// 设置LayoutHelper边缘相对父控件（即RecyclerView）的距离
+        singleLayoutHelper.setBgColor(Color.WHITE);// 设置背景颜色
+        singleLayoutHelper.setAspectRatio(7);// 设置设置布局内每行布局的宽与高的比
+
+        text4Adapter = new Text4Adapter(singleLayoutHelper, getActivity());
     }
 
     private void initSleep() {
         //设置Grid布局
-        GridLayoutHelper gridLayoutHelper = new GridLayoutHelper(2);
+        GridLayoutHelper gridLayoutHelper = new GridLayoutHelper(3);
         // 在构造函数设置每行的网格个数
         // 公共属性
         gridLayoutHelper.setItemCount(3);// 设置布局里Item个数
-        gridLayoutHelper.setPadding(20, 20, 20, 20);// 设置LayoutHelper的子元素相对LayoutHelper边缘的距离
-        gridLayoutHelper.setMargin(20, 20, 20, 20);// 设置LayoutHelper边缘相对父控件（即RecyclerView）的距离
+//        gridLayoutHelper.setPadding(20, 20, 20, 20);// 设置LayoutHelper的子元素相对LayoutHelper边缘的距离
+//        gridLayoutHelper.setMargin(20, 20, 20, 20);// 设置LayoutHelper边缘相对父控件（即RecyclerView）的距离
         gridLayoutHelper.setBgColor(Color.WHITE);// 设置背景颜色
-        gridLayoutHelper.setAspectRatio(1);// 设置设置布局内每行布局的宽与高的比
+//        gridLayoutHelper.setAspectRatio(1);// 设置设置布局内每行布局的宽与高的比
 
         // gridLayoutHelper特有属性（下面会详细说明）
         gridLayoutHelper.setWeights(new float[]{100});//设置每行中 每个网格宽度 占 每行总宽度 的比例
@@ -121,7 +189,9 @@ public class HomeFragment extends BaseFragment<ImpPresenter> implements MyContra
         gridLayoutHelper.setAutoExpand(false);//是否自动填充空白区域
         gridLayoutHelper.setSpanCount(1);// 设置每行多少个网格
 
-        newAdapter = new NewAdapter(gridLayoutHelper, newlist, getActivity());
+        sleepAdapter = new SleepAdapter(gridLayoutHelper, slppelist, getActivity());
+
+
     }
 
     private void initText3() {
@@ -135,18 +205,6 @@ public class HomeFragment extends BaseFragment<ImpPresenter> implements MyContra
         singleLayoutHelper.setAspectRatio(7);// 设置设置布局内每行布局的宽与高的比
 
         text3Adapter = new Text3Adapter(singleLayoutHelper, getActivity());
-
-        delegateAdapter = new DelegateAdapter(virtualLayoutManager);
-        delegateAdapter.addAdapter(bannerAdapter);
-        delegateAdapter.addAdapter(gridAdapter);
-        delegateAdapter.addAdapter(text1Adapter);
-        delegateAdapter.addAdapter(makeAdapter);
-        delegateAdapter.addAdapter(text2Adapter);
-        delegateAdapter.addAdapter(newAdapter);
-        delegateAdapter.addAdapter(text3Adapter);
-
-        rel_home.setLayoutManager(virtualLayoutManager);
-        rel_home.setAdapter(delegateAdapter);
     }
 
     private void initNew() {
@@ -275,6 +333,14 @@ public class HomeFragment extends BaseFragment<ImpPresenter> implements MyContra
         List<HomeBean.DataDTO.NewGoodsListDTO> good = homeBean.getData().getNewGoodsList();
         newlist.addAll(good);
         newAdapter.notifyDataSetChanged();
+
+        List<HomeBean.DataDTO.HotGoodsListDTO> sleep = homeBean.getData().getHotGoodsList();
+        slppelist.addAll(sleep);
+        sleepAdapter.notifyDataSetChanged();
+
+        List<HomeBean.DataDTO.TopicListDTO> love = homeBean.getData().getTopicList();
+        lovelist.addAll(love);
+        loveAdapter.notifyDataSetChanged();
     }
 
 
