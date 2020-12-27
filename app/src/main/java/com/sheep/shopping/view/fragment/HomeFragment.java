@@ -26,6 +26,7 @@ import com.sheep.mylibrary.utils.net.URLConstant;
 import com.sheep.shopping.R;
 import com.sheep.shopping.adapter.BannerAdapter;
 import com.sheep.shopping.adapter.GridAdapter;
+import com.sheep.shopping.adapter.HomeAdapter;
 import com.sheep.shopping.adapter.LoveAdapter;
 import com.sheep.shopping.adapter.MakeAdapter;
 import com.sheep.shopping.adapter.NewAdapter;
@@ -72,6 +73,8 @@ public class HomeFragment extends BaseFragment<ImpPresenter> implements MyContra
     private Text4Adapter text4Adapter;
     private LoveAdapter loveAdapter;
     private ArrayList<HomeBean.DataDTO.TopicListDTO> lovelist;
+    private HomeAdapter homeAdapter;
+    private ArrayList<HomeBean.DataDTO.CategoryListDTO> homelist;
 
 
     @Override
@@ -96,6 +99,7 @@ public class HomeFragment extends BaseFragment<ImpPresenter> implements MyContra
         newlist = new ArrayList<>();
         slppelist = new ArrayList<>();
         lovelist = new ArrayList<>();
+        homelist = new ArrayList<>();
 
         // 初始化有一个布局管理器
         virtualLayoutManager = new VirtualLayoutManager(getActivity());
@@ -127,7 +131,24 @@ public class HomeFragment extends BaseFragment<ImpPresenter> implements MyContra
         singleLayoutHelper.setBgColor(Color.WHITE);// 设置背景颜色
 //        singleLayoutHelper.setAspectRatio(7);// 设置设置布局内每行布局的宽与高的比
 
-        loveAdapter = new LoveAdapter(singleLayoutHelper,lovelist,getActivity());
+        homeAdapter = new HomeAdapter(singleLayoutHelper,homelist,getActivity());
+
+
+        delegateAdapter = new DelegateAdapter(virtualLayoutManager);
+        delegateAdapter.addAdapter(bannerAdapter);
+        delegateAdapter.addAdapter(gridAdapter);
+        delegateAdapter.addAdapter(text1Adapter);
+        delegateAdapter.addAdapter(makeAdapter);
+        delegateAdapter.addAdapter(text2Adapter);
+        delegateAdapter.addAdapter(newAdapter);
+        delegateAdapter.addAdapter(text3Adapter);
+        delegateAdapter.addAdapter(sleepAdapter);
+        delegateAdapter.addAdapter(text4Adapter);
+        delegateAdapter.addAdapter(loveAdapter);
+        delegateAdapter.addAdapter(homeAdapter);
+
+        rel_home.setLayoutManager(virtualLayoutManager);
+        rel_home.setAdapter(delegateAdapter);
     }
 
     private void initLove() {
@@ -141,21 +162,6 @@ public class HomeFragment extends BaseFragment<ImpPresenter> implements MyContra
 //        singleLayoutHelper.setAspectRatio(7);// 设置设置布局内每行布局的宽与高的比
 
         loveAdapter = new LoveAdapter(singleLayoutHelper,lovelist,getActivity());
-
-        delegateAdapter = new DelegateAdapter(virtualLayoutManager);
-        delegateAdapter.addAdapter(bannerAdapter);
-        delegateAdapter.addAdapter(gridAdapter);
-        delegateAdapter.addAdapter(text1Adapter);
-        delegateAdapter.addAdapter(makeAdapter);
-        delegateAdapter.addAdapter(text2Adapter);
-        delegateAdapter.addAdapter(newAdapter);
-        delegateAdapter.addAdapter(text3Adapter);
-        delegateAdapter.addAdapter(sleepAdapter);
-        delegateAdapter.addAdapter(text4Adapter);
-        delegateAdapter.addAdapter(loveAdapter);
-
-        rel_home.setLayoutManager(virtualLayoutManager);
-        rel_home.setAdapter(delegateAdapter);
     }
 
     private void initText4() {
@@ -341,6 +347,10 @@ public class HomeFragment extends BaseFragment<ImpPresenter> implements MyContra
         List<HomeBean.DataDTO.TopicListDTO> love = homeBean.getData().getTopicList();
         lovelist.addAll(love);
         loveAdapter.notifyDataSetChanged();
+
+        List<HomeBean.DataDTO.CategoryListDTO> home = homeBean.getData().getCategoryList();
+        homelist.addAll(home);
+        homeAdapter.notifyDataSetChanged();
     }
 
 
