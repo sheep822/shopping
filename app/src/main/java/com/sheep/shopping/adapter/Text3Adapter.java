@@ -14,11 +14,11 @@ import com.alibaba.android.vlayout.LayoutHelper;
 import com.alibaba.android.vlayout.layout.SingleLayoutHelper;
 import com.sheep.shopping.R;
 
-public class Text2Adapter extends DelegateAdapter.Adapter<Text2Adapter.HomeHolder> {
+public class Text3Adapter extends DelegateAdapter.Adapter<Text3Adapter.HomeHolder> {
     private SingleLayoutHelper singleLayoutHelper;
     private Context context;
 
-    public Text2Adapter(SingleLayoutHelper singleLayoutHelper, Context context) {
+    public Text3Adapter(SingleLayoutHelper singleLayoutHelper, Context context) {
         this.singleLayoutHelper = singleLayoutHelper;
         this.context = context;
     }
@@ -37,7 +37,7 @@ public class Text2Adapter extends DelegateAdapter.Adapter<Text2Adapter.HomeHolde
 
     @Override
     public void onBindViewHolder(@NonNull HomeHolder holder, int position) {
-        holder.tv.setText("周一周四 新品首发");
+        holder.tv.setText("人气推荐");
     }
 
     @Override
